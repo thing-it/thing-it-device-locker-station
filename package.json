@@ -1,5 +1,5 @@
 {
-  "name": "thing-it-device-locker-station",
+  "name": "@thing-it/device-locker-station",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
