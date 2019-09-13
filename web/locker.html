@@ -1,0 +1,17 @@
+<ti-locker 
+[state]="component._state" 
+[options]="{type: 'station'}"
+[user]="{
+  _id: 4711,
+  account: 4711,
+  firstName: 'FirstName',
+  lastName: 'LastName',
+  roles: [
+    'CustomerAdministrator',
+    'UserManagement',
+    'Procurement'
+  ]
+}"
+(open)="panel.callActorService(component, 'unlock', $event)"
+(close)="panel.callActorService(component, 'lock', $event)"
+></ti-locker>

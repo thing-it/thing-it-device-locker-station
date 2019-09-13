@@ -1,0 +1,17 @@
+{
+  "name": "thing-it-device-locker-station",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "mocha test",
+    "ui-test": "node ./node_modules/thing-it-test/bin/server.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "assets": "^3.0.1",
+    "mocha": "^5.2.0",
+    "thing-it-test": "0.0.32"
+  }
+}
