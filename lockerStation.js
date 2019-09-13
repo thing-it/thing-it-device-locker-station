@@ -2,7 +2,7 @@
 
 module.exports = {
   metadata: {
-    family: 'lockerStation',
+    family: 'locker-station',
     plugin: 'lockerStation',
     label: 'Locker Station',
     tangible: true,
