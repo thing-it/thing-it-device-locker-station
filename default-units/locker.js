@@ -6,7 +6,7 @@ module.exports = {
     label: 'Locker',
     role: 'actor',
     family: 'locker',
-    deviceTypes: ['lockerStation/lockerStation'],
+    deviceTypes: ['locker-station/lockerStation'],
     discoverable: false,
     persistent: true,
     events: [],

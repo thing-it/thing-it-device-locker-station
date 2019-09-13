@@ -4,7 +4,7 @@ module.exports = {
   autoDiscoveryDeviceTypes: [],
   devices: [
     {
-      plugin: 'lockerStation/lockerStation',
+      plugin: 'locker-station/lockerStation',
       actors: [
         {
           id: 'locker01',
