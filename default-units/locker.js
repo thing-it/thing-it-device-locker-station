@@ -132,7 +132,6 @@ function Locker() {
 
   Locker.prototype.lock = function (param) {
     const loggedInUser = param.loggedInUser;
-    const lockingTimeStamp = new Date().getTime();
     const expirationTimeStamp =
       param.expirationTimestamp ?
         new Date(param.expirationTimestamp).getTime() :
@@ -141,8 +140,8 @@ function Locker() {
     if (this.isSimulated()) {
       this.state.status = 'locked';
       this.state.lockingUserAccount = loggedInUser.account;
+      this.state.cuttedUserAccount = this.device.cutUserAccount(loggedInUser.account);
       this.state.lockingUserName = `${loggedInUser.firstName} ${loggedInUser.lastName}`;
-      this.state.lockingTimeStamp = lockingTimeStamp;
       this.state.expirationTimeStamp = expirationTimeStamp;
       this.publishState();
     }
