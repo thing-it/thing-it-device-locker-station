@@ -155,8 +155,8 @@ function Locker() {
       if (this.state.lockingUserAccount == loggedInUser.account) {
         this.state.status = 'unlocked';
         this.state.lockingUserAccount = '';
+        this.state.cuttedUserAccount = '';
         this.state.lockingUserName = '';
-        this.state.lockingTimeStamp = 0;
         this.state.expirationTimeStamp = 0;
         this.publishState();
       } else {
