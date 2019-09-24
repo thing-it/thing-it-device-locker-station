@@ -99,19 +99,19 @@ function Locker() {
     };
     this.publishOperationalStateChange();
 
-    if (this.isSimulated()) {
-      this.state = {
-        lockerId: this.id,
-        status: 'unlocked',
-        lockingUserAccount: '',
-        lockingUserName: '',
-        lockingTimeStamp: 0,
-        expirationTimeStamp: 0,
-        label: this.configuration.label,
-        widthUnits: this.configuration.widthUnits,
-        heightUnits: this.configuration.heightUnits
-      };
-    }
+
+    this.state = {
+      lockerId: this.id,
+      status: 'unlocked',
+      lockingUserAccount: '',
+      lockingUserName: '',
+      lockingTimeStamp: 0,
+      expirationTimeStamp: 0,
+      label: this.configuration.label,
+      widthUnits: this.configuration.widthUnits,
+      heightUnits: this.configuration.heightUnits
+    };
+
 
     this.operationalState = {
       status: 'OK',
@@ -137,33 +137,30 @@ function Locker() {
         new Date(param.expirationTimestamp).getTime() :
         new Date().getTime() + 30 * 60 * 1000;
 
-    if (this.isSimulated()) {
-      this.state.status = 'locked';
-      this.state.lockingUserAccount = loggedInUser.account;
-      this.state.cuttedUserAccount = this.device.cutUserAccount(loggedInUser.account);
-      this.state.lockingUserName = `${loggedInUser.firstName} ${loggedInUser.lastName}`;
-      this.state.expirationTimeStamp = expirationTimeStamp;
-      this.publishState();
-    }
+    this.state.status = 'locked';
+    this.state.lockingUserAccount = loggedInUser.account;
+    this.state.cuttedUserAccount = this.device.cutUserAccount(loggedInUser.account);
+    this.state.lockingUserName = `${loggedInUser.firstName} ${loggedInUser.lastName}`;
+    this.state.expirationTimeStamp = expirationTimeStamp;
+    this.publishState();
 
     return Promise.resolve();
   }
 
   Locker.prototype.unlock = function (param) {
     const loggedInUser = param.loggedInUser;
-    if (this.isSimulated()) {
-      if (this.state.lockingUserAccount == loggedInUser.account) {
-        this.state.status = 'unlocked';
-        this.state.lockingUserAccount = '';
-        this.state.cuttedUserAccount = '';
-        this.state.lockingUserName = '';
-        this.state.expirationTimeStamp = 0;
-        this.publishState();
-      } else {
-        this.state.errorMessage = 'Wrong user account';
-        this.publishState();
-      }
+    if (this.state.lockingUserAccount == loggedInUser.account) {
+      this.state.status = 'unlocked';
+      this.state.lockingUserAccount = '';
+      this.state.cuttedUserAccount = '';
+      this.state.lockingUserName = '';
+      this.state.expirationTimeStamp = 0;
+      this.publishState();
+    } else {
+      this.state.errorMessage = 'Wrong user account';
+      this.publishState();
     }
+
     return Promise.resolve();
   }
 }

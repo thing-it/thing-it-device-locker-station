@@ -64,13 +64,11 @@ function LockerStation() {
     };
     this.publishOperationalStateChange();
 
-    if (this.isSimulated()) {
-      this.state = {
-        heightUnits: this.configuration.totalHeightUnits,
-        widthUnits: this.configuration.totalUnitsWidth,
-        arrayOfLockers: []
-      };
-    }
+    this.state = {
+      heightUnits: this.configuration.totalHeightUnits,
+      widthUnits: this.configuration.totalUnitsWidth,
+      arrayOfLockers: []
+    };    
 
     this.operationalState = {
       status: 'OK',
