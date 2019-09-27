@@ -164,20 +164,7 @@ module.exports = {
     {
       plugin: 'locker-station/lockerStation',
       actors: [        
-        {
-          id: 'locker01',
-          label: 'Locker 01',
-          type: 'locker',
-          logLevel: 'debug',
-          configuration: {
-            simulated: true,
-            label: '1',
-            heightUnits: 6,
-            widthUnits: 1,
-            heightPosition: 1,
-            whidthPosition: 1
-          },          
-        },
+     
         {
           id: 'locker02',
           label: 'Locker 02',
@@ -208,20 +195,6 @@ module.exports = {
           },          
         },
         {
-          id: 'locker04',
-          label: 'Locker 04',
-          type: 'locker',
-          logLevel: 'debug',
-          configuration: {
-            simulated: true,
-            label: '4',
-            heightUnits: 1,
-            widthUnits: 1,
-            heightPosition: 2,
-            whidthPosition: 2
-          },          
-        },
-        {
           id: 'locker05',
           label: 'Locker 05',
           type: 'locker',
@@ -236,19 +209,33 @@ module.exports = {
           },          
         },
         {
-          id: 'locker06',
-          label: 'Locker 06',
+          id: 'locker04',
+          label: 'Locker 04',
           type: 'locker',
           logLevel: 'debug',
           configuration: {
             simulated: true,
-            label: '6',
-            heightUnits: 2,
+            label: '4',
+            heightUnits: 1,
             widthUnits: 1,
-            heightPosition: 3,
+            heightPosition: 2,
             whidthPosition: 3
           },          
-        },
+        },        
+        {
+          id: 'locker01',
+          label: 'Locker 01',
+          type: 'locker',
+          logLevel: 'debug',
+          configuration: {
+            simulated: true,
+            label: '1',
+            heightUnits: 6,
+            widthUnits: 1,
+            heightPosition: 1,
+            whidthPosition: 1
+          },          
+        },        
         {
           id: 'locker07',
           label: 'Locker 07',
@@ -263,6 +250,20 @@ module.exports = {
             whidthPosition: 4
           },          
         },
+        {
+          id: 'locker10',
+          label: 'Locker 10',
+          type: 'locker',
+          logLevel: 'debug',
+          configuration: {
+            simulated: true,
+            label: '10',
+            heightUnits: 1,
+            widthUnits: 2,
+            heightPosition: 6,
+            whidthPosition: 3
+          },          
+        },        
         {
           id: 'locker08',
           label: 'Locker 08',
@@ -292,19 +293,19 @@ module.exports = {
           },          
         },
         {
-          id: 'locker10',
-          label: 'Locker 10',
+          id: 'locker06',
+          label: 'Locker 06',
           type: 'locker',
           logLevel: 'debug',
           configuration: {
             simulated: true,
-            label: '10',
-            heightUnits: 1,
-            widthUnits: 2,
-            heightPosition: 6,
+            label: '6',
+            heightUnits: 2,
+            widthUnits: 1,
+            heightPosition: 3,
             whidthPosition: 3
           },          
-        }
+        }        
       ],
       sensors: [],
       services: [],

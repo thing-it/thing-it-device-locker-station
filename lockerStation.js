@@ -103,7 +103,7 @@ function LockerStation() {
     });
 
     result.sort((a, b) => {
-      return a.order > b.order;
+      return a.order - b.order;
     });
     
     this.state.arrayOfLockers =  result;

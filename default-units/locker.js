@@ -124,12 +124,15 @@ function Locker() {
       label: this.configuration.label,
       widthUnits: this.configuration.widthUnits,
       heightUnits: this.configuration.heightUnits,
-      whidthPosition: this.configuration.whidthPosition,
-      heightPosition: this.configuration.heightPosition,
       order: 0
     };
 
-    this.state.order = this.calculateOrder(this.state.heightPosition, this.state.whidthPosition);
+    if (this.configuration.whidthPosition && this.configuration.heightPosition) {
+      this.state.order = this.calculateOrder(
+        this.configuration.heightPosition ? this.configuration.heightPosition : 0,
+        this.configuration.whidthPosition ? this.configuration.whidthPosition : 0
+      );
+    }        
 
     this.operationalState = {
       status: 'OK',
