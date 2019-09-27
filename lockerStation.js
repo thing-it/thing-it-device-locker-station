@@ -13,8 +13,8 @@ module.exports = {
     sensorTypes: [],
     configuration: [
       {
-        label: 'Total Height Units',
-        id: 'totalHeightUnits ',
+        label: 'Total Units Height ',
+        id: 'totalUnitsHeight ',
         type: {
           id: 'integer'
         },
@@ -102,12 +102,15 @@ function LockerStation() {
       }
     });
 
-    this.state.arrayOfLockers = result;
+    result.sort((a, b) => {
+      return a.order > b.order;
+    });
+    
+    this.state.arrayOfLockers =  result;
   }
 
   LockerStation.prototype.lock = function (param) {
     const lockerId = param.lockerId;
-    console.log(param)
     this.actors.forEach(item => {
       if (item.state.lockerId == lockerId) {
         item.lock(param);
