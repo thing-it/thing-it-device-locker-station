@@ -111,6 +111,7 @@ module.exports = {
 Promise.prototype.fail = Promise.prototype.catch;
 const OVERDUE_NOTIFICATION_INTEVAL = 3600000;
 
+
 function Locker() {
 
   Locker.prototype.start = function () {
@@ -164,7 +165,7 @@ function Locker() {
 
     if (this.state.status === 'unlocked') {
       const loggedInUser = param.loggedInUser;
-      const expirationTimeStamp =
+      const expirationTimeStamp = 
         param.expirationTimestamp ?
           new Date(param.expirationTimestamp).getTime() :
           Date.now() + 30 * 60 * 1000;
@@ -176,7 +177,12 @@ function Locker() {
       this.state.expirationTimeStamp = expirationTimeStamp;
       this.state.errorMessage = '';
       this.publishState();
-      this.overdueMessageInterval = setInterval(this.overdueNotification.bind(this), OVERDUE_NOTIFICATION_INTEVAL);
+
+      this.startCheckingOverdue = setInterval(() => {
+        clearInterval(this.startCheckingOverdue);
+        this.overdueMessageInterval = setInterval(this.overdueNotification.bind(this), OVERDUE_NOTIFICATION_INTEVAL);          
+      }, expirationTimeStamp - Date.now());
+      
     } else {
       this.state.errorMessage = 'Locker already locked';
       this.publishState();
@@ -195,6 +201,9 @@ function Locker() {
       this.state.expirationTimeStamp = 0;
       this.state.errorMessage = '';
       this.publishState();
+      if (this.startCheckingOverdue) {
+        clearInterval(this.startCheckingOverdue);
+      }
       if (this.overdueMessageInterval) {
         clearInterval(this.overdueMessageInterval);
       }
