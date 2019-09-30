@@ -158,7 +158,7 @@ module.exports = {
         simulated: true,
         totalUnitsHeight:3,
         totalUnitsWidth: 6,
-        unlockRole: 'testUnlockRole'
+        unlockRole: 'adminRole'
       }
     },
     {

@@ -132,7 +132,7 @@ function Locker() {
         this.configuration.heightPosition ? this.configuration.heightPosition : 0,
         this.configuration.whidthPosition ? this.configuration.whidthPosition : 0
       );
-    }        
+    }
 
     this.operationalState = {
       status: 'OK',
@@ -152,33 +152,41 @@ function Locker() {
   }
 
   Locker.prototype.lock = function (param) {
-    const loggedInUser = param.loggedInUser;
-    const expirationTimeStamp =
-      param.expirationTimestamp ?
-        new Date(param.expirationTimestamp).getTime() :
-        new Date().getTime() + 30 * 60 * 1000;
 
-    this.state.status = 'locked';
-    this.state.lockingUserAccount = loggedInUser.account;
-    this.state.cuttedUserAccount = this.device.cutUserAccount(loggedInUser.account);
-    this.state.lockingUserName = `${loggedInUser.firstName} ${loggedInUser.lastName}`;
-    this.state.expirationTimeStamp = expirationTimeStamp;
-    this.publishState();
+    if (this.state.status === 'unlocked') {
+      const loggedInUser = param.loggedInUser;
+      const expirationTimeStamp =
+        param.expirationTimestamp ?
+          new Date(param.expirationTimestamp).getTime() :
+          new Date().getTime() + 30 * 60 * 1000;
 
+      this.state.status = 'locked';
+      this.state.lockingUserAccount = loggedInUser.account;
+      this.state.cuttedUserAccount = this.device.cutUserAccount(loggedInUser.account);
+      this.state.lockingUserName = `${loggedInUser.firstName} ${loggedInUser.lastName}`;
+      this.state.expirationTimeStamp = expirationTimeStamp;
+      this.state.errorMessage = '';
+      this.publishState();
+    } else {
+      this.state.errorMessage = 'Locker already locked';
+      this.publishState();
+    }
     return Promise.resolve();
   }
 
   Locker.prototype.unlock = function (param) {
     const loggedInUser = param.loggedInUser;
-    if (this.state.lockingUserAccount == loggedInUser.account) {
+
+    if (this.checkAccessRights(loggedInUser)) {
       this.state.status = 'unlocked';
       this.state.lockingUserAccount = '';
       this.state.cuttedUserAccount = '';
       this.state.lockingUserName = '';
       this.state.expirationTimeStamp = 0;
+      this.state.errorMessage = '';
       this.publishState();
     } else {
-      this.state.errorMessage = 'Wrong user account';
+      this.state.errorMessage = 'Access denied';
       this.publishState();
     }
 
@@ -189,5 +197,16 @@ function Locker() {
     const widthRate = Math.pow(10, this.device.configuration.totalUnitsWidth.toString().length + 1);
     const heightRate = Math.pow(10, this.device.configuration.totalUnitsHeight.toString().length + 1);
     return (heightPosition + heightRate) * widthRate + whidthPosition
+  }
+
+
+  Locker.prototype.checkAccessRights = function (userObject) {
+    if (this.state.lockingUserAccount === userObject.account) {
+      return true;
+    }
+    else if (Array.isArray(userObject.roles) && userObject.roles.includes(this.device.configuration.unlockRole)) {
+      return true;
+    }
+    return false;
   }
 }

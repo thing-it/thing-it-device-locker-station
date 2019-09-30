@@ -30,7 +30,7 @@ module.exports = {
       },
       {
         label: 'Unlock Role ',
-        id: 'unlockRole ',
+        id: 'unlockRole',
         type: {
           id: 'string'
         },
