@@ -95,6 +95,12 @@ module.exports = {
         id: "unlock",
         label: "Unlock",
       }
+    ],
+    events: [
+      {
+        id: "lockerOverdue",
+        label: "Locker Overdue"
+      }
     ]
   },
   create: function () {
@@ -103,6 +109,7 @@ module.exports = {
 };
 
 Promise.prototype.fail = Promise.prototype.catch;
+const OVERDUE_NOTIFICATION_INTEVAL = 3600000;
 
 function Locker() {
 
@@ -113,6 +120,8 @@ function Locker() {
     };
     this.publishOperationalStateChange();
 
+
+    this.overdueMessageInterval = undefined;
 
     this.state = {
       lockerId: this.id,
@@ -158,7 +167,7 @@ function Locker() {
       const expirationTimeStamp =
         param.expirationTimestamp ?
           new Date(param.expirationTimestamp).getTime() :
-          new Date().getTime() + 30 * 60 * 1000;
+          Date.now() + 30 * 60 * 1000;
 
       this.state.status = 'locked';
       this.state.lockingUserAccount = loggedInUser.account;
@@ -167,6 +176,7 @@ function Locker() {
       this.state.expirationTimeStamp = expirationTimeStamp;
       this.state.errorMessage = '';
       this.publishState();
+      this.overdueMessageInterval = setInterval(this.overdueNotification.bind(this), OVERDUE_NOTIFICATION_INTEVAL);
     } else {
       this.state.errorMessage = 'Locker already locked';
       this.publishState();
@@ -185,6 +195,9 @@ function Locker() {
       this.state.expirationTimeStamp = 0;
       this.state.errorMessage = '';
       this.publishState();
+      if (this.overdueMessageInterval) {
+        clearInterval(this.overdueMessageInterval);
+      }
     } else {
       this.state.errorMessage = 'Access denied';
       this.publishState();
@@ -208,5 +221,13 @@ function Locker() {
       return true;
     }
     return false;
+  }
+
+  Locker.prototype.overdueNotification = function () {
+    if (this.state.status === 'locked') {
+      if (this.state.expirationTimeStamp < Date.now() + OVERDUE_NOTIFICATION_INTEVAL - 1000) {
+        this.publishEvent('lockerOverdue', {});
+      }
+    }
   }
 }
