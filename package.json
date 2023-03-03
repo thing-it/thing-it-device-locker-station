@@ -11,7 +11,7 @@
   "license": "ISC",
   "devDependencies": {
     "assets": "^3.0.1",
-    "mocha": "^5.2.0",
+    "mocha": "^10.2.0",
     "thing-it-test": "0.0.32"
   }
 }
